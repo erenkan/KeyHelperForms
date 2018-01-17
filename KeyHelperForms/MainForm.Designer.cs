@@ -48,11 +48,13 @@
             this.btnShow = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.HPColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.MPColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // button_StartStop
             // 
-            this.button_StartStop.Location = new System.Drawing.Point(363, 87);
+            this.button_StartStop.Location = new System.Drawing.Point(454, 87);
             this.button_StartStop.Name = "button_StartStop";
             this.button_StartStop.Size = new System.Drawing.Size(75, 23);
             this.button_StartStop.TabIndex = 0;
@@ -175,11 +177,13 @@
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.PIDColumn,
             this.nameColumn,
-            this.CharColumn});
+            this.CharColumn,
+            this.HPColumn,
+            this.MPColumn});
             this.listView1.FullRowSelect = true;
             this.listView1.Location = new System.Drawing.Point(14, 58);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(344, 260);
+            this.listView1.Size = new System.Drawing.Size(423, 260);
             this.listView1.TabIndex = 12;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -199,11 +203,11 @@
             // CharColumn
             // 
             this.CharColumn.Text = "Char";
-            this.CharColumn.Width = 138;
+            this.CharColumn.Width = 111;
             // 
             // btnHide
             // 
-            this.btnHide.Location = new System.Drawing.Point(363, 116);
+            this.btnHide.Location = new System.Drawing.Point(454, 116);
             this.btnHide.Name = "btnHide";
             this.btnHide.Size = new System.Drawing.Size(75, 23);
             this.btnHide.TabIndex = 13;
@@ -212,7 +216,7 @@
             // 
             // btnShow
             // 
-            this.btnShow.Location = new System.Drawing.Point(363, 145);
+            this.btnShow.Location = new System.Drawing.Point(454, 145);
             this.btnShow.Name = "btnShow";
             this.btnShow.Size = new System.Drawing.Size(75, 23);
             this.btnShow.TabIndex = 14;
@@ -224,7 +228,7 @@
             this.btnRefresh.BackgroundImage = global::KeyHelperForms.Properties.Resources.refresh;
             this.btnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.btnRefresh.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.btnRefresh.Location = new System.Drawing.Point(363, 58);
+            this.btnRefresh.Location = new System.Drawing.Point(454, 58);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(26, 23);
             this.btnRefresh.TabIndex = 15;
@@ -234,18 +238,27 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(364, 175);
+            this.label1.Location = new System.Drawing.Point(455, 175);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 16;
             this.label1.Text = "label1";
+            // 
+            // HPColumn
+            // 
+            this.HPColumn.Text = "HP";
+            this.HPColumn.Width = 80;
+            // 
+            // MPColumn
+            // 
+            this.MPColumn.Text = "MP";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.ClientSize = new System.Drawing.Size(541, 337);
+            this.ClientSize = new System.Drawing.Size(741, 389);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnShow);
@@ -293,6 +306,8 @@
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.ColumnHeader CharColumn;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ColumnHeader HPColumn;
+        private System.Windows.Forms.ColumnHeader MPColumn;
     }
 }
 

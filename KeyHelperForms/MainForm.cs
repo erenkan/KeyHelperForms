@@ -55,22 +55,38 @@ namespace KeyHelperForms
             foreach (Process process in processList)
             {
                 ListViewItem item = new ListViewItem();
-
                 IntPtr processHandle = OpenProcess(PROCESS_WM_READ, false, process.Id);
 
                 int bytesRead = 0;
                 byte[] charName = new byte[24];
+                byte[] charHP = new byte[24];
+                byte[] charMP = new byte[24];
+
 
                 ReadProcessMemory((int)processHandle, 0x010916BF, charName, charName.Length, ref bytesRead);
+                ReadProcessMemory((int)processHandle, 0x00E70DD4, charHP, charHP.Length, ref bytesRead);
+                ReadProcessMemory((int)processHandle, 0x00E70DD8, charMP, charMP.Length, ref bytesRead);
+
+
+                int hp = BitConverter.ToInt32(charHP, 0);
+                int mp = BitConverter.ToInt32(charMP, 0);
+
+
                 item.SubItems.Add(process.ProcessName);
                 item.Text = process.Id.ToString();
                 item.SubItems.Add(Encoding.ASCII.GetString(charName));
+                item.SubItems.Add(hp.ToString());
+                item.SubItems.Add(mp.ToString());
+
+
                 item.Tag = process;
                 listView1.Items.Add(item);
+
             }
 
 
-           
+
+
         }
 
 
