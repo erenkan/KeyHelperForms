@@ -40,21 +40,22 @@
             this.checkBox_key8 = new System.Windows.Forms.CheckBox();
             this.checkBox_key9 = new System.Windows.Forms.CheckBox();
             this.checkBox_key0 = new System.Windows.Forms.CheckBox();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.listView_Characters = new System.Windows.Forms.ListView();
             this.PIDColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.nameColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CharColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.HpColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.MpColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnHide = new System.Windows.Forms.Button();
             this.btnShow = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.HPColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.MPColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.button1 = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // button_StartStop
             // 
-            this.button_StartStop.Location = new System.Drawing.Point(454, 87);
+            this.button_StartStop.Location = new System.Drawing.Point(545, 92);
             this.button_StartStop.Name = "button_StartStop";
             this.button_StartStop.Size = new System.Drawing.Size(75, 23);
             this.button_StartStop.TabIndex = 0;
@@ -172,21 +173,22 @@
             this.checkBox_key0.UseVisualStyleBackColor = true;
             this.checkBox_key0.CheckedChanged += new System.EventHandler(this.checkBox_key0_CheckedChanged);
             // 
-            // listView1
+            // listView_Characters
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listView_Characters.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.PIDColumn,
             this.nameColumn,
             this.CharColumn,
-            this.HPColumn,
-            this.MPColumn});
-            this.listView1.FullRowSelect = true;
-            this.listView1.Location = new System.Drawing.Point(14, 58);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(423, 260);
-            this.listView1.TabIndex = 12;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.HpColumn,
+            this.MpColumn});
+            this.listView_Characters.FullRowSelect = true;
+            this.listView_Characters.Location = new System.Drawing.Point(12, 58);
+            this.listView_Characters.Name = "listView_Characters";
+            this.listView_Characters.Size = new System.Drawing.Size(466, 260);
+            this.listView_Characters.TabIndex = 12;
+            this.listView_Characters.UseCompatibleStateImageBehavior = false;
+            this.listView_Characters.View = System.Windows.Forms.View.Details;
+            this.listView_Characters.SelectedIndexChanged += new System.EventHandler(this.listView_Characters_SelectedIndexChanged);
             // 
             // PIDColumn
             // 
@@ -203,11 +205,23 @@
             // CharColumn
             // 
             this.CharColumn.Text = "Char";
-            this.CharColumn.Width = 111;
+            this.CharColumn.Width = 95;
+            // 
+            // HpColumn
+            // 
+            this.HpColumn.Tag = "";
+            this.HpColumn.Text = "HP";
+            this.HpColumn.Width = 111;
+            // 
+            // MpColumn
+            // 
+            this.MpColumn.Tag = "";
+            this.MpColumn.Text = "MP";
+            this.MpColumn.Width = 95;
             // 
             // btnHide
             // 
-            this.btnHide.Location = new System.Drawing.Point(454, 116);
+            this.btnHide.Location = new System.Drawing.Point(545, 124);
             this.btnHide.Name = "btnHide";
             this.btnHide.Size = new System.Drawing.Size(75, 23);
             this.btnHide.TabIndex = 13;
@@ -216,7 +230,7 @@
             // 
             // btnShow
             // 
-            this.btnShow.Location = new System.Drawing.Point(454, 145);
+            this.btnShow.Location = new System.Drawing.Point(545, 153);
             this.btnShow.Name = "btnShow";
             this.btnShow.Size = new System.Drawing.Size(75, 23);
             this.btnShow.TabIndex = 14;
@@ -228,42 +242,42 @@
             this.btnRefresh.BackgroundImage = global::KeyHelperForms.Properties.Resources.refresh;
             this.btnRefresh.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.btnRefresh.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.btnRefresh.Location = new System.Drawing.Point(454, 58);
+            this.btnRefresh.Location = new System.Drawing.Point(546, 67);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(26, 23);
             this.btnRefresh.TabIndex = 15;
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
-            // label1
+            // button1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(455, 175);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 16;
-            this.label1.Text = "label1";
+            this.button1.Location = new System.Drawing.Point(546, 22);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 16;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // HPColumn
+            // progressBar1
             // 
-            this.HPColumn.Text = "HP";
-            this.HPColumn.Width = 80;
-            // 
-            // MPColumn
-            // 
-            this.MPColumn.Text = "MP";
+            this.progressBar1.Location = new System.Drawing.Point(520, 203);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(100, 23);
+            this.progressBar1.TabIndex = 17;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.ClientSize = new System.Drawing.Size(741, 389);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(778, 422);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnShow);
             this.Controls.Add(this.btnHide);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.listView_Characters);
             this.Controls.Add(this.checkBox_key0);
             this.Controls.Add(this.checkBox_key9);
             this.Controls.Add(this.checkBox_key8);
@@ -298,16 +312,17 @@
         private System.Windows.Forms.CheckBox checkBox_key8;
         private System.Windows.Forms.CheckBox checkBox_key9;
         private System.Windows.Forms.CheckBox checkBox_key0;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView listView_Characters;
         private System.Windows.Forms.ColumnHeader nameColumn;
         private System.Windows.Forms.ColumnHeader PIDColumn;
         private System.Windows.Forms.Button btnHide;
         private System.Windows.Forms.Button btnShow;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.ColumnHeader CharColumn;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ColumnHeader HPColumn;
-        private System.Windows.Forms.ColumnHeader MPColumn;
+        private System.Windows.Forms.ColumnHeader HpColumn;
+        private System.Windows.Forms.ColumnHeader MpColumn;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

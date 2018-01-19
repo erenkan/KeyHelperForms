@@ -20,7 +20,7 @@ namespace KeyHelperForms
             }
             
         }
-        public void ChangeChecks(List<bool> checks)
+        public void ChangeChecks(List<bool> checks,string PID)
         {
             keyThreadStatuses = checks;
         }

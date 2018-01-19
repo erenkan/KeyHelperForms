@@ -16,96 +16,45 @@ namespace KeyHelperForms
 
     public partial class MainForm : Form
     {
-        //Memory read and some magic.
-        const int PROCESS_WM_READ = 0x0010;
-
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
-
-        [DllImport("kernel32.dll")]
-        public static extern bool ReadProcessMemory(int hProcess,
-        int lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesRead);
-
-
-
-
-
-        //Keypress things.
         bool startState = false;
         List<bool> checkState;
         KeyThreadArray threadHelperArray;
-
+        ProcessHandler processHelper;
 
         public MainForm()
         {
-
             InitializeComponent();
-            checkState = new List<bool>();
-            for (int i = 0; i < 10; i++)
-            {
-                checkState.Add(false); //I am too lazy to use LINQ.
-            }
+            checkState = Enumerable.Repeat(false, 10).ToList();
             threadHelperArray = new KeyThreadArray();
-        }
-
-        private void RAMReader()
-        {
-            Process[] processList = Process.GetProcessesByName("PVO_Client");
-
-            foreach (Process process in processList)
-            {
-                ListViewItem item = new ListViewItem();
-                IntPtr processHandle = OpenProcess(PROCESS_WM_READ, false, process.Id);
-
-                int bytesRead = 0;
-                byte[] charName = new byte[24];
-                byte[] charHP = new byte[24];
-                byte[] charMP = new byte[24];
-
-
-                ReadProcessMemory((int)processHandle, 0x010916BF, charName, charName.Length, ref bytesRead);
-                ReadProcessMemory((int)processHandle, 0x00E70DD4, charHP, charHP.Length, ref bytesRead);
-                ReadProcessMemory((int)processHandle, 0x00E70DD8, charMP, charMP.Length, ref bytesRead);
-
-
-                int hp = BitConverter.ToInt32(charHP, 0);
-                int mp = BitConverter.ToInt32(charMP, 0);
-
-
-                item.SubItems.Add(process.ProcessName);
-                item.Text = process.Id.ToString();
-                item.SubItems.Add(Encoding.ASCII.GetString(charName));
-                item.SubItems.Add(hp.ToString());
-                item.SubItems.Add(mp.ToString());
-
-
-                item.Tag = process;
-                listView1.Items.Add(item);
-
-            }
-
-
-
-
+            processHelper = new ProcessHandler();
         }
 
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            RAMReader();
+            FillListBox();
 
+            
         }
-
-
         private void btnRefresh_Click(object sender, EventArgs e)
         {
+            listView_Characters.Items.Clear(); //Also works as refresh.
+            FillListBox();
         }
 
         private void button_StartStop_Click(object sender, EventArgs e)
         {
+            List<CheckBox> eklenecek = new List<CheckBox>();
+            foreach (var item in this.Controls)
+            {
+                if(item.GetType().ToString()== "System.Windows.Forms.CheckBox"&&((CheckBox)item).Checked)
+                {
+                    eklenecek.Add((CheckBox)item);
+                }
+            }
+            listView_Characters.SelectedItems[0].Tag = new List<CheckBox>(eklenecek);
 
-
-            threadHelperArray.ChangeChecks(checkState);
+            threadHelperArray.ChangeChecks(checkState, listView_Characters.SelectedItems[0].SubItems[1].Text);
             threadHelperArray.StartAll();
             if (!startState)
             {
@@ -179,12 +128,67 @@ namespace KeyHelperForms
             ChangeState(checkBox_key0, 9);
         }
 
-        private void btnOffset_Click(object sender, EventArgs e)
+        public void FillListBox()
         {
-            RAMReader();
+            /* ListView structure -> 0 : name, 1 : pid, 2 : char */
+            List<Process> processList = processHelper.GetProcesses();
+            foreach (Process process in processList)
+            {
+                ListViewItem item = new ListViewItem();
 
+                if (process.ProcessName.ToString() == Variables.processName)
+                {
+                    //TODO: Here is too ugly, simplify it and move it elsewhere.
+                    string characterName = processHelper.ReadAddress(process, Variables.characterNameAddress,String.Empty);
+                    string currentPid = process.Id.ToString();
+                    int hp = processHelper.ReadAddress(process, Variables.hpAddress, new Int32());
+                    int mp = processHelper.ReadAddress(process, Variables.mpAddress, new Int32());
+                   
+                    
+                    item.SubItems.Add(process.ProcessName);
+                    item.SubItems.Add(characterName);
+                    item.SubItems.Add(hp.ToString());
+                    item.SubItems.Add(mp.ToString());
+                    item.Text = currentPid;  
+                    listView_Characters.Items.Add(item);
+
+                    progressBar1.Minimum = 0;
+                    progressBar1.Maximum = hp;
+                    progressBar1.Value = 60;
+
+
+
+                }
+            }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if(listView_Characters.SelectedItems[0].Tag!=null)
+            foreach (var item in (List<CheckBox>)listView_Characters.SelectedItems[0].Tag)
+            {
+                MessageBox.Show(item.Text);
+            }
+        }
 
+        private void listView_Characters_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach (Control item2 in this.Controls)
+            {
+                if (item2.GetType().ToString() == "System.Windows.Forms.CheckBox")
+                    ((CheckBox)item2).Checked = false;
+            }
+            if (listView_Characters.SelectedItems.Count>0&&listView_Characters.SelectedItems[0].Tag != null)
+            foreach (var item in (List<CheckBox>)listView_Characters.SelectedItems[0].Tag)
+            {
+                foreach (Control item2 in this.Controls)
+                {
+                    if (item2.GetType().ToString() == "System.Windows.Forms.CheckBox"&&item.Name==item2.Name)
+                    {
+                        ((CheckBox)item2).Checked = true;
+                    }
+                }
+            }
+        }
     }
 }
